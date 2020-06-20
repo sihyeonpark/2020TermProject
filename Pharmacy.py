@@ -5,9 +5,10 @@ from io import BytesIO
 import urllib.request
 from PIL import  Image, ImageTk
 import smtplib
-from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 
 
 
@@ -251,34 +252,38 @@ def emailButton():
     SearchButton.place(x=400, y=510)
 
 def sendInfo():
-
     sendEmail = "qkrtlgus123@gmail.com"
     recvEmail = "sh2joo@naver.com"
-    passwoed = "psh9806142"
-    msg = MIMEMultipart('alternative')
+    password = "psh9806142"
 
+    f = open("test.txt", 'w')
+    for i in range(len(StarList)):
+        f.write("--------------. \n")
+        f.write(StarList[i][0])
+        f.write("\n--------------. \n")
+    f.close()
 
-    msg = MIMEText(MailText)
-    msg['Subject']='제목 : 테스트'
-    msg['From']= sendEmail
+    f = open("test.txt", "r")
+    contents = f.read()
+    f.close()
+
+    msg = MIMEMultipart("alternative")
+    msg['Subject'] = '제목 : 테스트'
+    msg['From'] = sendEmail
     msg['To'] = recvEmail
 
+    bodyPart = '테스트중'
+    msg.attach(MIMEText(bodyPart, 'plain'))
 
-    msgPart = MIMEText(msgtext, 'plain')
-    bookPart = MIMEText(html, 'html', _charset = 'UTF-8')
+    text = msg.as_string()
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(sendEmail, password)
 
-    msg.attach(msgPart)
-    msg.attach(bookPart)
+    server.sendmail(sendEmail,recvEmail, text)
+    server.quit()
 
-    print ("connect smtp server ... ")
-    s = smtplib.SMTP_SSL("smtp.gmail.com", 587)
-    s.ehlo()
-    s.starttls()
-    s.ehlo()
-    s.login("qkrtlgus123@gmail.com", "psh9806142")
-    s.sendmail(sendEmail,recvEmail,msg.as_string().encode('utf-8'))
-    s.quit()    #종료료
-    print ("Mail sending complete!!!")
+    print("메일 전송 성공")
 
 
 InitTopText()
