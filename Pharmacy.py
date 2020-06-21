@@ -9,8 +9,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 
-
-
+import folium
+import webbrowser
+from folium.plugins import MarkerCluster
 
 window = Tk()
 window.title("약국검색 프로그램")
@@ -158,10 +159,18 @@ def SearchPharmacy():
                         subitems[3] = subitems[i]   #3번째 칸으로 옮김
                         subitems[i] = temp
 
+                    if subitems[i].nodeName == "wgs84Lat":
+                        temp = subitems[4]
+                        subitems[4] = subitems[i]
+                        subitems[i] = temp
 
+                    if subitems[i].nodeName == "wgs84Lon":
+                        temp = subitems[5]
+                        subitems[5] = subitems[i]
+                        subitems[i] = temp
 
                 # 0번 : 주소 , 2번 : 이름 , 3번 : 간략한 주소 , 4번 : 전화번호
-                DataList.append((subitems[2].firstChild.nodeValue,subitems[0].firstChild.nodeValue,str(subitems[3].firstChild.nodeValue)))
+                DataList.append((subitems[2].firstChild.nodeValue,subitems[0].firstChild.nodeValue,str(subitems[3].firstChild.nodeValue),subitems[4].firstChild.nodeValue,subitems[5].firstChild.nodeValue))
 
 
 
@@ -202,7 +211,7 @@ def loadDetail(event):   #상세정보창
 
 
     RenderText.delete(0.0, END)
-
+    print(listBox.curselection()[0])
     indexNum = listBox.curselection()[0]
 
 
@@ -253,8 +262,20 @@ def inStar():   #즐겨찾기에 넣기
     global StarNum
 
     listBox2.insert(indexNum, DataList[indexNum][0])
-
+    print(listBox2.curselection())
     StarList.append((DataList[indexNum][0], DataList[indexNum][1], DataList[indexNum][2]))
+
+def mapButton():
+    TempFont = font.Font(window, size=12, weight='bold', family='Consolas')
+    MapButton = Button(window, font=TempFont, width=7, text="지도보기", command=openMap)
+    MapButton.place(x=490, y=510)
+
+def openMap():
+    map_osm = folium.Map(location=[DataList[indexNum][3],DataList[indexNum][4]], zoom_start=13)
+ #   folium.Marker([DataList[indexNum][3],DataList[indexNum][4]],popup=DataList[indexNum][0]).add_to(map_osm)
+    folium.Marker([DataList[indexNum][3],DataList[indexNum][4]]).add_to(map_osm)
+    map_osm.save('osm.html')
+    webbrowser.open_new('osm.html')
 
 
 def emailButton():
@@ -309,6 +330,7 @@ InitSearchButton()
 starButton()
 InitStar()
 emailButton()
+mapButton()
 #loadMap()
 #SearchPharmacy()
 
