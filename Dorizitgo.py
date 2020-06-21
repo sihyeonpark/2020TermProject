@@ -71,6 +71,15 @@ class Dorizitgo:
         self.Lplayer1Status = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="yellow")
         self.Lplayer1Status.place(x=40, y=280)
 
+        self.Lplayer2Status = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="yellow")
+        self.Lplayer2Status.place(x=250, y=280)
+
+        self.Lplayer3Status = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="yellow")
+        self.Lplayer3Status.place(x=460, y=280)
+
+        self.LmainStatus = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="yellow")
+        self.LmainStatus.place(x=100, y=80)
+
     def setupButton(self):
         self.p1_5 = Button(self.window, text="5만", width=3, height=1, font=self.fontstyle2, command=self.p1Bet_5)
         self.p1_5.place(x=90,y=540)
@@ -207,7 +216,8 @@ class Dorizitgo:
         self.LcardsPlayer1[self.player1.inHand() - 1].image = p
         self.LcardsPlayer1[self.player1.inHand() - 1].place(x=50 + n * 32, y=350)
         self.LcardsP1Point.append(newCard.getValue())
-        self.P1PointLabel = Label(text = self.LcardsP1Point[n],width=3, height=1, font=self.fontstyle2, bg="green", fg="white")
+        self.p1Point = [int(x) for x in self.LcardsP1Point]
+        self.P1PointLabel = Label(text = self.p1Point[n],width=3, height=1, font=self.fontstyle2, bg="green", fg="white")
         self.P1PointLabel.place(x=60 + n * 32, y=320)
 
     def p2Card(self, n):
@@ -223,7 +233,8 @@ class Dorizitgo:
         self.LcardsPlayer2[self.player2.inHand() - 1].place(x=260 + n * 32, y=350)
 
         self.LcardsP2Point.append(newCard.getValue())
-        self.P2PointLabel = Label(text=self.LcardsP2Point[n], width=3, height=1, font=self.fontstyle2, bg="green",
+        self.p2Point = [int(x) for x in self.LcardsP2Point]
+        self.P2PointLabel = Label(text=self.p2Point[n], width=3, height=1, font=self.fontstyle2, bg="green",
                                   fg="white")
         self.P2PointLabel.place(x=270 + n * 32, y=320)
 
@@ -240,7 +251,8 @@ class Dorizitgo:
         self.LcardsPlayer3[self.player3.inHand() - 1].place(x=470 + n * 32, y=350)
 
         self.LcardsP3Point.append(newCard.getValue())
-        self.P3PointLabel = Label(text=self.LcardsP3Point[n], width=3, height=1, font=self.fontstyle2, bg="green",
+        self.p3Point = [int(x) for x in self.LcardsP3Point]
+        self.P3PointLabel = Label(text=self.p3Point[n], width=3, height=1, font=self.fontstyle2, bg="green",
                                   fg="white")
         self.P3PointLabel.place(x=480 + n * 32, y=320)
 
@@ -258,56 +270,109 @@ class Dorizitgo:
 
         self.LcardsMPoint.append(newCard.getValue())
 
-    def scoreCheck(self,n):
-        self.tempNumList = [0 for _ in range(12)]
-        for i in range(1,len(self.LcardsP1Point)+1):
-            num = self.LcardsP1Point[i-1]
-            self.tempNumList[num-1] = self.LcardsP1Point.count(num)
-        if self.tempNumList[8]==2 and self.tempNumList[1]==1:
-            self.Lplayer1Status.configure(text="구구리(9,9,2)")
-        elif self.tempNumList[7]==2 and self.tempNumList[3]==1:
-            self.Lplayer1Status.configure(text="팍팍싸(8,8,4)")
-        elif self.tempNumList[6]==2 and self.tempNumList[5]==1:
-            self.Lplayer1Status.configure(text="철철육(7,7,6)")
-        elif self.tempNumList[5]==2 and self.tempNumList[7]==1:
-            self.Lplayer1Status.configure(text="쭉쭉팔(6,6,8)")
-        elif self.tempNumList[4]==1 and self.tempNumList[6]==1 and self.tempNumList[7]==1:
-            self.Lplayer1Status.configure(text="오리발(5,7,8)")
-        elif self.tempNumList[4]==1 and self.tempNumList[5]==1 and self.tempNumList[8]==1:
-            self.Lplayer1Status.configure(text="오륙구(5,6,9)")
-        elif self.tempNumList[4]==2 and self.tempNumList[9]==1:
-            self.Lplayer1Status.configure(text="꼬꼬장(5,5,10)")
-        elif self.tempNumList[3]==1 and self.tempNumList[6]==1 and self.tempNumList[8]==1:
-            self.Lplayer1Status.configure(text="사칠구(4,7,9)")
-        elif self.tempNumList[3]==1 and self.tempNumList[5]==1 and self.tempNumList[10] == 1:
-            self.Lplayer1Status.configure(text="사륙장(4,6,10")
-        elif self.tempNumList[3] == 2 and self.tempNumList[1]==1:
-            self.Lplayer1Status.configure(text="샅샅이(4,4,2)")
-        elif self.tempNumList[2]==1 and self.tempNumList[7] == 1 and self.tempNumList[8]==1:
-            self.Lplayer1Status.configure(text="삼빡구(3,8,9)")
-        elif self.tempNumList[2] == 1 and self.tempNumList[6]==1 and self.tempNumList[9]==1:
-            self.Lplayer1Status.configure(text="삼칠장(3,7,10)")
-        elif self.tempNumList[2]==2 and self.tempNumList[3]==1:
-            self.Lplayer1Status.configure(text="심심새(3,3,4)")
-        elif self.tempNumList[1]==1 and self.tempNumList[7]==1 and self.tempNumList[9]==1:
-            self.Lplayer1Status.configure(text="이판장(2,8,10)")
-        elif self.tempNumList[1]==1 and self.tempNumList[2]==1 and self.tempNumList[4]==1:
-            self.Lplayer1Status.configure(text="이삼오(2,3,5)")
-        elif self.tempNumList[1]==2 and self.tempNumList[5]==1:
-            self.Lplayer1Status.configure(text="니니육(2,2,6)")
-        elif self.tempNumList[0]==1 and self.tempNumList[8]==1 and self.tempNumList[9]==1:
-            self.Lplayer1Status.configure(text="삥구장(1,9,10)")
-        elif self.tempNumList[1]==1 and self.tempNumList[3]==1 and self.tempNumList[4]==1:
-            self.Lplayer1Status.configure(text="빽새오(1,4,5)")
-        elif self.tempNumList[0]==1 and self.tempNumList[2]==1 and self.tempNumList[5]==1:
-            self.Lplayer1Status.configure(text="물삼육(1,3,6)")
-        elif (self.tempNumList[0] == 1 and self.tempNumList[1] == 1 and self.tempNumList[6] == 1):
-            self.Lplayer1Status.configure(text="삐리칠(1,2,7)")
-        elif (self.tempNumList[0]==2 and self.tempNumList[7]==1):
-            self.Lplayer1Status.configure(text="콩콩팔(1,1,8)")
-        else:
-            self.Lplayer1Status.configure(text="노메이드")
+    def scoreCheck(self,status,point):
+        plusStatus = "하이"
 
+        for i in range(5):
+            lastNum = (point[i]*10)%10
+
+        print(lastNum)
+
+        self.tempNumList = [0 for _ in range(12)]
+
+        iPoint = [int(x) for x in point]
+        for i in range(1,len(iPoint)+1):
+            num = iPoint[i-1]
+            self.tempNumList[num-1] = iPoint.count(num)
+
+        for i in range(5):
+            for j in range(5):
+                if i!=j:
+                    if point[i] == 8.1 and point[j] == 3.1:
+                        plusStatus = "38광땡"
+                    elif (point[i] == 1.1 and point[j] == 3.1) or (point[i] == 1.1 and point[i] == 8.1):
+                        plusStatus = "광땡"
+                    elif (point[i] == 1.1 or point[i]==1.2 or point[i] == 1.3 or point[i] == 1.4) and (
+                            point[j] == 1.1 or point[j]==1.2 or point[j] == 1.3 or point[j] == 1.4):
+                        plusStatus = "삥땡"
+                    elif (point[i] == 2.1 or point[i] == 2.2 or point[i] == 2.3 or point[i] == 2.4) and (
+                            point[j] == 2.1 or point[j] == 2.2 or point[j] == 2.3 or point[j] == 24):
+                        plusStatus = "이땡"
+                    elif (point[i] == 3.1 or point[i] == 3.2 or point[i] == 3.3 or point[i] == 3.4) and (
+                            point[j] == 3.1 or point[j] == 3.2 or point[j] == 3.3 or point[j] == 3.4):
+                        plusStatus = "삼땡"
+                    elif (point[i] == 4.1 or point[i] == 4.2 or point[i] == 4.3 or point[i] == 4.4) and (
+                            point[j] == 4.1 or point[j] == 4.2 or point[j] == 4.3 or point[j] == 4.4):
+                        plusStatus = "사땡"
+                    elif (point[i] == 5.1 or point[i] == 5.2 or point[i] == 5.3 or point[i] == 5.4) and (
+                            point[j] == 5.1 or point[j] == 5.2 or point[j] == 5.3 or point[j] == 5.4):
+                        plusStatus = "오땡"
+                    elif (point[i] == 6.1 or point[i] == 6.2 or point[i] == 6.3 or point[i] == 6.4) and (
+                            point[j] == 6.1 or point[j] == 6.2 or point[j] == 6.3 or point[j] == 6.4):
+                        plusStatus = "육땡"
+                    elif (point[i] == 7.1 or point[i] == 7.2 or point[i] == 7.3 or point[i] == 7.4) and (
+                            point[j] == 7.1 or point[j] == 7.2 or point[j] == 7.3 or point[j] == 7.4):
+                        plusStatus = "칠땡"
+                    elif (point[i] == 8.1 or point[i] == 8.2 or point[i] == 8.3 or point[i] == 8.4) and (
+                            point[j] == 8.1 or point[j] ==8.2 or point[j] == 8.3 or point[j] == 8.4):
+                        plusStatus = "팔땡"
+                    elif (point[i] == 9.1 or point[i] == 9.2 or point[i] == 9.3 or point[i] == 9.4) and (
+                            point[j] == 9.1 or point[j] == 9.2 or point[j] == 9.3 or point[j] == 9.4):
+                        plusStatus = "구땡"
+                    elif (point[i] == 10.1 or point[i] == 10.2 or point[i] == 10.3 or point[i] == 10.4) and (
+                            point[j] == 10.1 or point[j] == 10.2 or point[j] == 10.3 or point[j] == 10.4):
+                        plusStatus = "장땡"
+
+        if self.tempNumList[8]==2 and self.tempNumList[1]==1:
+            status.configure(text="구구리(9,9,2)"+plusStatus)
+        elif self.tempNumList[7]==2 and self.tempNumList[3]==1:
+            status.configure(text="팍팍싸(8,8,4)"+plusStatus)
+        elif self.tempNumList[6]==2 and self.tempNumList[5]==1:
+            status.configure(text="철철육(7,7,6)"+plusStatus)
+        elif self.tempNumList[5]==2 and self.tempNumList[7]==1:
+            status.configure(text="쭉쭉팔(6,6,8)"+plusStatus)
+        elif self.tempNumList[4]==1 and self.tempNumList[6]==1 and self.tempNumList[7]==1:
+            status.configure(text="오리발(5,7,8)"+plusStatus)
+        elif self.tempNumList[4]==1 and self.tempNumList[5]==1 and self.tempNumList[8]==1:
+            status.configure(text="오륙구(5,6,9)"+plusStatus)
+        elif self.tempNumList[4]==2 and self.tempNumList[9]==1:
+            status.configure(text="꼬꼬장(5,5,10)"+plusStatus)
+        elif self.tempNumList[3]==1 and self.tempNumList[6]==1 and self.tempNumList[8]==1:
+            status.configure(text="사칠구(4,7,9)"+plusStatus)
+        elif self.tempNumList[3]==1 and self.tempNumList[5]==1 and self.tempNumList[10] == 1:
+            status.configure(text="사륙장(4,6,10)"+plusStatus)
+        elif self.tempNumList[3] == 2 and self.tempNumList[1]==1:
+            status.configure(text="샅샅이(4,4,2)"+plusStatus)
+        elif self.tempNumList[2]==1 and self.tempNumList[7] == 1 and self.tempNumList[8]==1:
+            status.configure(text="삼빡구(3,8,9)"+plusStatus)
+        elif self.tempNumList[2] == 1 and self.tempNumList[6]==1 and self.tempNumList[9]==1:
+            status.configure(text="삼칠장(3,7,10)"+plusStatus)
+        elif self.tempNumList[2]==2 and self.tempNumList[3]==1:
+            status.configure(text="심심새(3,3,4)"+plusStatus)
+        elif self.tempNumList[1]==1 and self.tempNumList[7]==1 and self.tempNumList[9]==1:
+            status.configure(text="이판장(2,8,10)"+plusStatus)
+        elif self.tempNumList[1]==1 and self.tempNumList[2]==1 and self.tempNumList[4]==1:
+            status.configure(text="이삼오(2,3,5)"+plusStatus)
+        elif self.tempNumList[1]==2 and self.tempNumList[5]==1:
+            status.configure(text="니니육(2,2,6)"+plusStatus)
+        elif self.tempNumList[0]==1 and self.tempNumList[8]==1 and self.tempNumList[9]==1:
+            status.configure(text="삥구장(1,9,10)"+plusStatus)
+        elif self.tempNumList[0]==1 and self.tempNumList[3]==1 and self.tempNumList[4]==1:
+            status.configure(text="빽새오(1,4,5)"+plusStatus)
+        elif self.tempNumList[0]==1 and self.tempNumList[2]==1 and self.tempNumList[5]==1:
+            status.configure(text="물삼육(1,3,6)"+plusStatus)
+        elif (self.tempNumList[0] == 1 and self.tempNumList[1] == 1 and self.tempNumList[6] == 1):
+            status.configure(text="삐리칠(1,2,7)"+plusStatus)
+        elif (self.tempNumList[0]==2 and self.tempNumList[7]==1):
+            status.configure(text="콩콩팔(1,1,8)"+plusStatus)
+        else:
+            status.configure(text="노메이드")
+
+
+
+
+        iPoint.clear()
+        self.tempNumList.clear()
 
     def checkWinner(self):
         self.p1_5["state"] = "disabled"
@@ -331,12 +396,19 @@ class Dorizitgo:
             p = PhotoImage(file="GodoriCards/" + self.main.cards[i].filename())
             self.LcardsMain[i].configure(image=p)  # 이미지 레퍼런스 변경
             self.LcardsMain[i].image = p  # 파이썬은 라벨 이미지 레퍼런스를 갖고 있어야 이미지가 보임
-            self.MPointLabel = Label(text=self.LcardsMPoint[i], width=3, height=1, font=self.fontstyle2, bg="green",
+            self.mPoint = [int(x) for x in self.LcardsMPoint]
+            self.MPointLabel = Label(text=self.mPoint[i], width=3, height=1, font=self.fontstyle2, bg="green",
                                       fg="white")
             self.MPointLabel.place(x=180 + i * 32, y=110)
 
 
-        self.scoreCheck(1)
+        self.scoreCheck(self.Lplayer1Status,self.LcardsP1Point)
+
+        self.scoreCheck(self.Lplayer2Status,self.LcardsP2Point)
+
+        self.scoreCheck(self.Lplayer3Status, self.LcardsP3Point)
+
+        self.scoreCheck(self.LmainStatus, self.LcardsMPoint)
 
 
     def pressedAgain(self):
