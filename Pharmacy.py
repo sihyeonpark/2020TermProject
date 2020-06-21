@@ -4,10 +4,10 @@ from tkinter import ttk
 from io import BytesIO
 import urllib.request
 from PIL import  Image, ImageTk
+import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email import encoders
+from email.mime.image import MIMEImage
 
 import folium
 import webbrowser
@@ -56,28 +56,28 @@ def InputLabel():
 def InitQ0():   #시/도
     global InitQ0
     TempFont = font.Font(window, size=15, weight='bold', family='Consolas')
-    InitQ0 = Entry(window, font=TempFont, width=16, borderwidth=2, relief='ridge')
+    InitQ0 = Entry(window, font=TempFont, width=16, relief='ridge')
     InitQ0.pack()
     InitQ0.place(x=100, y=85)
 
 def InitQ1():   #시/구/군
     global InitQ1
     TempFont = font.Font(window, size=15, weight='bold', family='Consolas')
-    InitQ1 = Entry(window, font=TempFont, width=16, borderwidth=2, relief='ridge')
+    InitQ1 = Entry(window, font=TempFont, width=16, relief='ridge')
     InitQ1.pack()
     InitQ1.place(x=100, y=135)
 
 def InitPharmacyName():
     global InitPharmacyName
-    TempFont = font.Font(window, size=15, weight='bold', family='Consolas')
-    InitPharmacyName = Entry(window, font=TempFont, width=16, borderwidth=2, relief='ridge')
+    TempFont = font.Font(window, size=15,  family='Consolas')
+    InitPharmacyName = Entry(window, font=TempFont, width=16,  relief='ridge')
     InitPharmacyName.pack()
     InitPharmacyName.place(x=100, y=185)
 
 
 def InitSearchButton():
-    TempFont = font.Font(window, size=12, weight='bold', family='Consolas')
-    SearchButton = Button(window, font=TempFont, width=7, text="검색", command=SearchButtonAction)
+    TempFont = font.Font(window, size=12, family='Consolas')
+    SearchButton = Button(window, bg='white', font=TempFont, width=7, text="검색", command=SearchButtonAction)
 
     SearchButton.place(x=208, y=235)
 #    SearchButton.pack()
@@ -236,7 +236,7 @@ def loadDetail(event):   #상세정보창
 
 def starButton():   #즐겨찾기 버튼
     TempFont = font.Font(window, size=12, weight='bold', family='Consolas')
-    SearchButton = Button(window, font=TempFont, width=7, text="즐겨찾기", command=inStar)
+    SearchButton = Button(window, font=TempFont, bg='white',width=7, text="즐겨찾기", command=inStar)
 
     SearchButton.place(x=310, y=510)
 #    SearchButton.pack()
@@ -262,12 +262,11 @@ def inStar():   #즐겨찾기에 넣기
     global StarNum
 
     listBox2.insert(indexNum, DataList[indexNum][0])
-    print(listBox2.curselection())
     StarList.append((DataList[indexNum][0], DataList[indexNum][1], DataList[indexNum][2]))
 
 def mapButton():
     TempFont = font.Font(window, size=12, weight='bold', family='Consolas')
-    MapButton = Button(window, font=TempFont, width=7, text="지도보기", command=openMap)
+    MapButton = Button(window, font=TempFont, width=7, bg='white',text="지도보기", command=openMap)
     MapButton.place(x=490, y=510)
 
 def openMap():
@@ -280,7 +279,7 @@ def openMap():
 
 def emailButton():
     TempFont = font.Font(window, size=12, weight='bold', family='Consolas')
-    SearchButton = Button(window, font=TempFont, width=7, text="메일전송", command=sendInfo)
+    SearchButton = Button(window, font=TempFont, width=7,bg='white', text="메일전송", command=sendInfo)
 
     SearchButton.place(x=400, y=510)
 
@@ -289,31 +288,20 @@ def sendInfo():
     recvEmail = "sh2joo@naver.com"
     password = "psh9806142"
 
-    f = open("test.txt", 'w')
-    for i in range(len(StarList)):
-        f.write("--------------. \n")
-        f.write(StarList[i][0])
-        f.write("\n--------------. \n")
-    f.close()
 
-    f = open("test.txt", "r")
-    contents = f.read()
-    f.close()
-
-    msg = MIMEMultipart("alternative")
-    msg['Subject'] = '제목 : 테스트'
+    msg = MIMEMultipart()
+    msg['Subject'] = '<Pharmacy Search Program> '+DataList[indexNum][0]+" 정보입니다."
     msg['From'] = sendEmail
     msg['To'] = recvEmail
+    msg.attach(MIMEText("약국명 : "+ DataList[indexNum][0]+'\n주소 : '+DataList[indexNum][1] + '\n전화번호 : ' + DataList[indexNum][2], 'plain'))
 
-    bodyPart = '테스트중'
-    msg.attach(MIMEText(bodyPart, 'plain'))
 
-    text = msg.as_string()
+  #  text = msg.as_string()
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
     server.login(sendEmail, password)
 
-    server.sendmail(sendEmail,recvEmail, text)
+    server.sendmail(sendEmail,recvEmail, msg.as_string())
     server.quit()
 
     print("메일 전송 성공")
