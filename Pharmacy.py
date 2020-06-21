@@ -28,8 +28,8 @@ fontstyle = font.Font(window, size=24, weight='bold', family='맑은 고딕')
 fontstyle2 = font.Font(window, size=12, family='맑은 고딕')
 
 
-noteBook = ttk.Notebook(window, width = 470, height=210)
-noteBook.place(x=310,y=85)
+noteBook = ttk.Notebook(window, width = 375, height=400)
+noteBook.place(x=20,y=145)
 
 
 
@@ -38,48 +38,48 @@ noteBook.place(x=310,y=85)
 def InitTopText():
     Title=Label(window,text="약국검색 프로그램",font=fontstyle)
     Title.configure(bg='light blue')
-    Title.place(x=25, y=15)
+    Title.place(x=25, y=12)
 
 def InputLabel():
     nameL = Label(window,text="약국명", font=fontstyle2)
     nameL.configure(bg='light blue')
-    nameL.place(x=25, y=190)
+    nameL.place(x=430, y=76)
     L1 = Label(window,text="시/도", font=fontstyle2)
     L1.configure(bg='light blue')
-    L1.place(x=25, y=90)
+    L1.place(x=20, y=76)
     L2 = Label(window,text="시/구/군", font=fontstyle2)
     L2.configure(bg='light blue')
-    L2.place(x=25, y=140)
+    L2.place(x=210, y=76)
 
 
 
 def InitQ0():   #시/도
     global InitQ0
-    TempFont = font.Font(window, size=15, weight='bold', family='Consolas')
-    InitQ0 = Entry(window, font=TempFont, width=16, relief='ridge')
+    TempFont = font.Font(window, size=14, weight='bold', family='Consolas')
+    InitQ0 = Entry(window, font=TempFont, width=11, relief='ridge')
     InitQ0.pack()
-    InitQ0.place(x=100, y=85)
+    InitQ0.place(x=70, y=80)
 
 def InitQ1():   #시/구/군
     global InitQ1
     TempFont = font.Font(window, size=15, weight='bold', family='Consolas')
-    InitQ1 = Entry(window, font=TempFont, width=16, relief='ridge')
+    InitQ1 = Entry(window, font=TempFont, width=11, relief='ridge')
     InitQ1.pack()
-    InitQ1.place(x=100, y=135)
+    InitQ1.place(x=280, y=80)
 
 def InitPharmacyName():
     global InitPharmacyName
     TempFont = font.Font(window, size=15,  family='Consolas')
-    InitPharmacyName = Entry(window, font=TempFont, width=16,  relief='ridge')
+    InitPharmacyName = Entry(window, font=TempFont, width=11,  relief='ridge')
     InitPharmacyName.pack()
-    InitPharmacyName.place(x=100, y=185)
+    InitPharmacyName.place(x=490, y=80)
 
 
 def InitSearchButton():
-    TempFont = font.Font(window, size=12, family='Consolas')
+    TempFont = font.Font(window, size=11, family='Consolas')
     SearchButton = Button(window, bg='white', font=TempFont, width=7, text="검색", command=SearchButtonAction)
 
-    SearchButton.place(x=208, y=235)
+    SearchButton.place(x=650, y=75)
 #    SearchButton.pack()
 
 def SearchButtonAction():
@@ -188,7 +188,7 @@ def InitListBox():
     frame1 = Frame(window)
     noteBook.add(frame1, text="약국 목록")
     listScrollbar = Scrollbar(frame1)
-    listBox = Listbox(frame1, width=65, height=15 , yscrollcommand = listScrollbar.set)
+    listBox = Listbox(frame1, width=65, height=75 , yscrollcommand = listScrollbar.set)
     listScrollbar.config(command=listBox.yview)
     listScrollbar.pack(side="right", fill="y")
     listBox.bind('<Double-1>',loadDetail)
@@ -202,9 +202,9 @@ def InitRenderText():
     global RenderText
 
 
-    RenderText = Text(window, width=68, height=10, bg='white', relief='ridge', )
+    RenderText = Text(window, width=50, height=13, bg='white', relief='ridge', )
 
-    RenderText.place(x=310, y=347)
+    RenderText.place(x=430, y=145)
 
 def loadDetail(event):   #상세정보창
     global indexNum
@@ -216,7 +216,7 @@ def loadDetail(event):   #상세정보창
 
 
 
-    RenderText.insert(INSERT, "\n\n")
+    RenderText.insert(INSERT, "\n\n\n")
     RenderText.insert(INSERT, " 약국명:\t")
     RenderText.insert(INSERT, DataList[indexNum][0])
     RenderText.insert(INSERT, "\n\n")
@@ -235,10 +235,10 @@ def loadDetail(event):   #상세정보창
 
 
 def starButton():   #즐겨찾기 버튼
-    TempFont = font.Font(window, size=12, weight='bold', family='Consolas')
+    TempFont = font.Font(window, size=11, family='Consolas')
     SearchButton = Button(window, font=TempFont, bg='white',width=7, text="즐겨찾기", command=inStar)
 
-    SearchButton.place(x=310, y=510)
+    SearchButton.place(x=430, y=340)
 #    SearchButton.pack()
 
 def InitStar(): #리스트박스랑 스크롤바 frame2에
@@ -247,11 +247,11 @@ def InitStar(): #리스트박스랑 스크롤바 frame2에
     frame2 = Frame(window)
     noteBook.add(frame2, text="즐겨찾기")
     listScrollbar = Scrollbar(frame2)
-    listBox2 = Listbox(frame2, width=65, height=15 , yscrollcommand = listScrollbar.set)
+    listBox2 = Listbox(frame2, width=65, height=75 , yscrollcommand = listScrollbar.set)
     listScrollbar.config(command=listBox.yview)
     listScrollbar.pack(side="right", fill="y")
 
-    listBox2.bind('<Double-1>',loadDetail)
+    listBox2.bind('<Double-1>',loadDetail2)
     listBox2.pack()
 
 
@@ -264,10 +264,36 @@ def inStar():   #즐겨찾기에 넣기
     listBox2.insert(indexNum, DataList[indexNum][0])
     StarList.append((DataList[indexNum][0], DataList[indexNum][1], DataList[indexNum][2]))
 
+def loadDetail2(event):   #상세정보창
+    global indexNum
+
+
+    RenderText.delete(0.0, END)
+    indexNum = listBox2.curselection()[0]
+
+
+
+    RenderText.insert(INSERT, "\n\n\n")
+    RenderText.insert(INSERT, " 약국명:\t")
+    RenderText.insert(INSERT, StarList[indexNum][0])
+    RenderText.insert(INSERT, "\n\n")
+
+    RenderText.insert(INSERT, " 주소:\t")
+    RenderText.insert(INSERT, StarList[indexNum][1])
+    RenderText.insert(INSERT, "\n\n")
+    '''
+    RenderText.insert(INSERT, "\t☞ ")
+    RenderText.insert(INSERT, DataList[indexNum][2])
+    RenderText.insert(INSERT, "\n\n")
+    '''
+    RenderText.insert(INSERT, " 전화:\t")
+    RenderText.insert(INSERT, StarList[indexNum][2])
+    RenderText.insert(INSERT, "\n\n")
+
 def mapButton():
-    TempFont = font.Font(window, size=12, weight='bold', family='Consolas')
+    TempFont = font.Font(window, size=11, family='Consolas')
     MapButton = Button(window, font=TempFont, width=7, bg='white',text="지도보기", command=openMap)
-    MapButton.place(x=490, y=510)
+    MapButton.place(x=520, y=340)
 
 def openMap():
     map_osm = folium.Map(location=[DataList[indexNum][3],DataList[indexNum][4]], zoom_start=13)
@@ -278,10 +304,10 @@ def openMap():
 
 
 def emailButton():
-    TempFont = font.Font(window, size=12, weight='bold', family='Consolas')
-    SearchButton = Button(window, font=TempFont, width=7,bg='white', text="메일전송", command=sendInfo)
+    TempFont = font.Font(window, size=11, weight='bold', family='Consolas')
+    SearchButton = Button(window, font=TempFont, width=7, bg='white', text="메일전송", command=sendInfo)
 
-    SearchButton.place(x=400, y=510)
+    SearchButton.place(x=610, y=340)
 
 def sendInfo():
     sendEmail = "qkrtlgus123@gmail.com"
