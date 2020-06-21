@@ -4,7 +4,6 @@ from tkinter import ttk
 from io import BytesIO
 import urllib.request
 from PIL import  Image, ImageTk
-import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
@@ -17,21 +16,22 @@ window = Tk()
 window.title("약국검색 프로그램")
 DataList = []
 StarList =[]
+StarNum = []
+
+
 window.geometry("800x600") #윈도우 창 크기
+import smtplib
 window.configure(bg='light blue')
         #폰트가 함수보다 위에 있어야 적용 (family:폰트이름)
 fontstyle = font.Font(window, size=24, weight='bold', family='맑은 고딕')
 fontstyle2 = font.Font(window, size=12, family='맑은 고딕')
 
 
-noteBook = ttk.Notebook(window, width = 470, height=110)
+noteBook = ttk.Notebook(window, width = 470, height=210)
+noteBook.place(x=310,y=85)
 
 
-frame1 = Frame(window)      #프레임 다르게 설정 - notebook용도
-noteBook.place(x=310,y=360)
-noteBook.add(frame1,text = "상세정보")
-frame2 = Frame(window)
-noteBook.add(frame2,text = "즐겨찾기")
+
 
 
 def InitTopText():
@@ -160,8 +160,6 @@ def SearchPharmacy():
 
 
 
-
-
                 # 0번 : 주소 , 2번 : 이름 , 3번 : 간략한 주소 , 4번 : 전화번호
                 DataList.append((subitems[2].firstChild.nodeValue,subitems[0].firstChild.nodeValue,str(subitems[3].firstChild.nodeValue)))
 
@@ -172,56 +170,60 @@ def SearchPharmacy():
 
 
 
-
 def InitListBox():
+
     global listBox
-    frame = Frame(window)
-    listScrollbar = Scrollbar(frame)
-    listBox = Listbox(frame, width=65, height=15 , yscrollcommand = listScrollbar.set)
+
+    flag=0
+
+    frame1 = Frame(window)
+    noteBook.add(frame1, text="약국 목록")
+    listScrollbar = Scrollbar(frame1)
+    listBox = Listbox(frame1, width=65, height=15 , yscrollcommand = listScrollbar.set)
     listScrollbar.config(command=listBox.yview)
     listScrollbar.pack(side="right", fill="y")
+    listBox.bind('<Double-1>',loadDetail)
     listBox.pack()
-    frame.place(x=310,y=85)
+
+   # frame1.place()
 
 
-def DetailSearchButton():
-
-    TempFont = font.Font(window, size=12, weight='bold', family='Consolas')
-    DetailButton = Button(window, font=TempFont,  width=7,text="자세히", command=loadDetail)
-
-    DetailButton.place(x=208, y=285)
-
-#    SearchButton.pack()
 
 def InitRenderText():
     global RenderText
-    RenderText = Text(frame1, width=67, height=10, bg='white', relief='ridge', )
-    RenderText.pack()
-   # RenderText.place(x=310, y=370)
 
-def loadDetail():   #상세정보창
+
+    RenderText = Text(window, width=68, height=10, bg='white', relief='ridge', )
+
+    RenderText.place(x=310, y=347)
+
+def loadDetail(event):   #상세정보창
+    global indexNum
+
 
     RenderText.delete(0.0, END)
 
-    global iSearchIndex
-    iSearchIndex = listBox.curselection()[0]
+    indexNum = listBox.curselection()[0]
 
-    RenderText.insert(INSERT, "\n")
+
+
+    RenderText.insert(INSERT, "\n\n")
     RenderText.insert(INSERT, " 약국명:\t")
-    RenderText.insert(INSERT, DataList[iSearchIndex][0])
+    RenderText.insert(INSERT, DataList[indexNum][0])
     RenderText.insert(INSERT, "\n\n")
 
     RenderText.insert(INSERT, " 주소:\t")
-    RenderText.insert(INSERT, DataList[iSearchIndex][1])
+    RenderText.insert(INSERT, DataList[indexNum][1])
     RenderText.insert(INSERT, "\n\n")
     '''
     RenderText.insert(INSERT, "\t☞ ")
-    RenderText.insert(INSERT, DataList[iSearchIndex][2])
+    RenderText.insert(INSERT, DataList[indexNum][2])
     RenderText.insert(INSERT, "\n\n")
     '''
     RenderText.insert(INSERT, " 전화:\t")
-    RenderText.insert(INSERT, DataList[iSearchIndex][2])
+    RenderText.insert(INSERT, DataList[indexNum][2])
     RenderText.insert(INSERT, "\n\n")
+
 
 def starButton():   #즐겨찾기 버튼
     TempFont = font.Font(window, size=12, weight='bold', family='Consolas')
@@ -232,17 +234,27 @@ def starButton():   #즐겨찾기 버튼
 
 def InitStar(): #리스트박스랑 스크롤바 frame2에
     global listBox2 #즐겨찾기 list
+
+    frame2 = Frame(window)
+    noteBook.add(frame2, text="즐겨찾기")
     listScrollbar = Scrollbar(frame2)
     listBox2 = Listbox(frame2, width=65, height=15 , yscrollcommand = listScrollbar.set)
     listScrollbar.config(command=listBox.yview)
     listScrollbar.pack(side="right", fill="y")
+
+    listBox2.bind('<Double-1>',loadDetail)
     listBox2.pack()
+
+
+
 
 def inStar():   #즐겨찾기에 넣기
     global StarList
+    global StarNum
 
-    listBox2.insert(iSearchIndex, DataList[iSearchIndex][0])
-    StarList.append((DataList[iSearchIndex][0], DataList[iSearchIndex][1], DataList[iSearchIndex][2]))
+    listBox2.insert(indexNum, DataList[indexNum][0])
+
+    StarList.append((DataList[indexNum][0], DataList[indexNum][1], DataList[indexNum][2]))
 
 
 def emailButton():
@@ -294,7 +306,6 @@ InitPharmacyName()
 InitQ0()
 InitQ1()
 InitSearchButton()
-DetailSearchButton()
 starButton()
 InitStar()
 emailButton()
