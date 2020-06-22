@@ -22,7 +22,7 @@ StarNum = []
 
 window.geometry("800x600") #윈도우 창 크기
 import smtplib
-window.configure(bg='light blue')
+window.configure(bg='PaleGreen3')
         #폰트가 함수보다 위에 있어야 적용 (family:폰트이름)
 fontstyle = font.Font(window, size=24, weight='bold', family='맑은 고딕')
 fontstyle2 = font.Font(window, size=12, family='맑은 고딕')
@@ -36,20 +36,26 @@ noteBook.place(x=20,y=145)
 
 
 def InitTopText():
-    Title=Label(window,text="약국검색 프로그램",font=fontstyle)
-    Title.configure(bg='light blue')
-    Title.place(x=25, y=12)
+    #Title=Label(window,text="약국검색 프로그램",font=fontstyle)
+    #Title.configure(bg='light blue')
+    #Title.place(x=25, y=12)
+
+    img = PhotoImage(file='Logo.png')
+    lbl = Label(image=img)
+    lbl.image = img  # 레퍼런스 추가
+    lbl.place(x=0, y=10)
+
 
 def InputLabel():
     nameL = Label(window,text="약국명", font=fontstyle2)
-    nameL.configure(bg='light blue')
-    nameL.place(x=430, y=76)
+    nameL.configure(bg='PaleGreen3')
+    nameL.place(x=430, y=82)
     L1 = Label(window,text="시/도", font=fontstyle2)
-    L1.configure(bg='light blue')
-    L1.place(x=20, y=76)
+    L1.configure(bg='PaleGreen3')
+    L1.place(x=20, y=82)
     L2 = Label(window,text="시/구/군", font=fontstyle2)
-    L2.configure(bg='light blue')
-    L2.place(x=210, y=76)
+    L2.configure(bg='PaleGreen3')
+    L2.place(x=210, y=82)
 
 
 
@@ -58,28 +64,28 @@ def InitQ0():   #시/도
     TempFont = font.Font(window, size=14, weight='bold', family='Consolas')
     InitQ0 = Entry(window, font=TempFont, width=11, relief='ridge')
     InitQ0.pack()
-    InitQ0.place(x=70, y=80)
+    InitQ0.place(x=70, y=84)
 
 def InitQ1():   #시/구/군
     global InitQ1
     TempFont = font.Font(window, size=15, weight='bold', family='Consolas')
     InitQ1 = Entry(window, font=TempFont, width=11, relief='ridge')
     InitQ1.pack()
-    InitQ1.place(x=280, y=80)
+    InitQ1.place(x=280, y=84)
 
 def InitPharmacyName():
     global InitPharmacyName
     TempFont = font.Font(window, size=15,  family='Consolas')
     InitPharmacyName = Entry(window, font=TempFont, width=11,  relief='ridge')
     InitPharmacyName.pack()
-    InitPharmacyName.place(x=490, y=80)
+    InitPharmacyName.place(x=490, y=84)
 
 
 def InitSearchButton():
     TempFont = font.Font(window, size=11, family='Consolas')
     SearchButton = Button(window, bg='white', font=TempFont, width=7, text="검색", command=SearchButtonAction)
 
-    SearchButton.place(x=650, y=75)
+    SearchButton.place(x=650, y=80)
 #    SearchButton.pack()
 
 def SearchButtonAction():
