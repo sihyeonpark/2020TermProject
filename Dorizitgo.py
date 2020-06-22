@@ -69,16 +69,26 @@ class Dorizitgo:
         self.Lplayer3Money.place(x=505, y=480)
 
         self.Lplayer1Status = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="yellow")
-        self.Lplayer1Status.place(x=40, y=280)
+        self.Lplayer1Status.place(x=20, y=280)
 
         self.Lplayer2Status = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="yellow")
         self.Lplayer2Status.place(x=250, y=280)
 
         self.Lplayer3Status = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="yellow")
-        self.Lplayer3Status.place(x=460, y=280)
+        self.Lplayer3Status.place(x=470, y=280)
 
         self.LmainStatus = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="yellow")
-        self.LmainStatus.place(x=100, y=80)
+        self.LmainStatus.place(x=170, y=70)
+
+        self.Lplayer1wlStatus = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="red")
+        self.Lplayer1wlStatus.place(x=20, y=250)
+
+        self.Lplayer2wlStatus = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="red")
+        self.Lplayer2wlStatus.place(x=250, y=250)
+
+        self.Lplayer3wlStatus = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="red")
+        self.Lplayer3wlStatus.place(x=470, y=250)
+
 
     def setupButton(self):
         self.p1_5 = Button(self.window, text="5만", width=3, height=1, font=self.fontstyle2, command=self.p1Bet_5)
@@ -216,8 +226,7 @@ class Dorizitgo:
         self.LcardsPlayer1[self.player1.inHand() - 1].image = p
         self.LcardsPlayer1[self.player1.inHand() - 1].place(x=50 + n * 32, y=350)
         self.LcardsP1Point.append(newCard.getValue())
-        self.p1Point = [int(x) for x in self.LcardsP1Point]
-        self.P1PointLabel = Label(text = self.p1Point[n],width=3, height=1, font=self.fontstyle2, bg="green", fg="white")
+        self.P1PointLabel = Label(text = self.LcardsP1Point[n],width=3, height=1, font=self.fontstyle2, bg="green", fg="white")
         self.P1PointLabel.place(x=60 + n * 32, y=320)
 
     def p2Card(self, n):
@@ -231,10 +240,8 @@ class Dorizitgo:
         self.LcardsPlayer2[self.player2.inHand() - 1].config(image=p)  # 가지고있는 카드갯수 -1 인덱스는 0이 시작
         self.LcardsPlayer2[self.player2.inHand() - 1].image = p
         self.LcardsPlayer2[self.player2.inHand() - 1].place(x=260 + n * 32, y=350)
-
         self.LcardsP2Point.append(newCard.getValue())
-        self.p2Point = [int(x) for x in self.LcardsP2Point]
-        self.P2PointLabel = Label(text=self.p2Point[n], width=3, height=1, font=self.fontstyle2, bg="green",
+        self.P2PointLabel = Label(text=self.LcardsP2Point[n], width=3, height=1, font=self.fontstyle2, bg="green",
                                   fg="white")
         self.P2PointLabel.place(x=270 + n * 32, y=320)
 
@@ -251,10 +258,10 @@ class Dorizitgo:
         self.LcardsPlayer3[self.player3.inHand() - 1].place(x=470 + n * 32, y=350)
 
         self.LcardsP3Point.append(newCard.getValue())
-        self.p3Point = [int(x) for x in self.LcardsP3Point]
-        self.P3PointLabel = Label(text=self.p3Point[n], width=3, height=1, font=self.fontstyle2, bg="green",
+        self.P3PointLabel = Label(text=self.LcardsP3Point[n], width=3, height=1, font=self.fontstyle2, bg="green",
                                   fg="white")
         self.P3PointLabel.place(x=480 + n * 32, y=320)
+
 
     def mCard(self,n):
         newCard = Card(self.cardDeck[self.deckN])
@@ -273,56 +280,83 @@ class Dorizitgo:
     def scoreCheck(self,status,point):
         plusStatus = "하이"
 
-        for i in range(5):
-            lastNum = (point[i]*10)%10
-
-        print(lastNum)
 
         self.tempNumList = [0 for _ in range(12)]
 
-        iPoint = [int(x) for x in point]
-        for i in range(1,len(iPoint)+1):
-            num = iPoint[i-1]
-            self.tempNumList[num-1] = iPoint.count(num)
+        for i in range(1,len(point)+1):
+            num = point[i-1]
+            self.tempNumList[num-1] = point.count(num)
 
         for i in range(5):
             for j in range(5):
                 if i!=j:
-                    if point[i] == 8.1 and point[j] == 3.1:
+                    if point[i] == 8 and point[j] == 3:
                         plusStatus = "38광땡"
-                    elif (point[i] == 1.1 and point[j] == 3.1) or (point[i] == 1.1 and point[i] == 8.1):
+                        self.playerScore = 21
+                    elif (point[i] == 1 and point[j] == 3) or (point[i] == 1 and point[i] == 8):
                         plusStatus = "광땡"
-                    elif (point[i] == 1.1 or point[i]==1.2 or point[i] == 1.3 or point[i] == 1.4) and (
-                            point[j] == 1.1 or point[j]==1.2 or point[j] == 1.3 or point[j] == 1.4):
-                        plusStatus = "삥땡"
-                    elif (point[i] == 2.1 or point[i] == 2.2 or point[i] == 2.3 or point[i] == 2.4) and (
-                            point[j] == 2.1 or point[j] == 2.2 or point[j] == 2.3 or point[j] == 24):
-                        plusStatus = "이땡"
-                    elif (point[i] == 3.1 or point[i] == 3.2 or point[i] == 3.3 or point[i] == 3.4) and (
-                            point[j] == 3.1 or point[j] == 3.2 or point[j] == 3.3 or point[j] == 3.4):
-                        plusStatus = "삼땡"
-                    elif (point[i] == 4.1 or point[i] == 4.2 or point[i] == 4.3 or point[i] == 4.4) and (
-                            point[j] == 4.1 or point[j] == 4.2 or point[j] == 4.3 or point[j] == 4.4):
-                        plusStatus = "사땡"
-                    elif (point[i] == 5.1 or point[i] == 5.2 or point[i] == 5.3 or point[i] == 5.4) and (
-                            point[j] == 5.1 or point[j] == 5.2 or point[j] == 5.3 or point[j] == 5.4):
-                        plusStatus = "오땡"
-                    elif (point[i] == 6.1 or point[i] == 6.2 or point[i] == 6.3 or point[i] == 6.4) and (
-                            point[j] == 6.1 or point[j] == 6.2 or point[j] == 6.3 or point[j] == 6.4):
-                        plusStatus = "육땡"
-                    elif (point[i] == 7.1 or point[i] == 7.2 or point[i] == 7.3 or point[i] == 7.4) and (
-                            point[j] == 7.1 or point[j] == 7.2 or point[j] == 7.3 or point[j] == 7.4):
-                        plusStatus = "칠땡"
-                    elif (point[i] == 8.1 or point[i] == 8.2 or point[i] == 8.3 or point[i] == 8.4) and (
-                            point[j] == 8.1 or point[j] ==8.2 or point[j] == 8.3 or point[j] == 8.4):
-                        plusStatus = "팔땡"
-                    elif (point[i] == 9.1 or point[i] == 9.2 or point[i] == 9.3 or point[i] == 9.4) and (
-                            point[j] == 9.1 or point[j] == 9.2 or point[j] == 9.3 or point[j] == 9.4):
-                        plusStatus = "구땡"
-                    elif (point[i] == 10.1 or point[i] == 10.2 or point[i] == 10.3 or point[i] == 10.4) and (
-                            point[j] == 10.1 or point[j] == 10.2 or point[j] == 10.3 or point[j] == 10.4):
+                        self.playerScore = 20
+                    elif point[i] == 10 and point[j] == 10:
                         plusStatus = "장땡"
+                        self.playerScore = 19
+                    elif point[i] == 9 and point[j] == 9:
+                        plusStatus = "구땡"
+                        self.playerScore = 18
+                    elif point[i] == 8 and point[j] == 8:
+                        plusStatus = "팔땡"
+                        self.playerScore = 17
+                    elif point[i] == 7 and point[j] == 7:
+                        plusStatus = "칠땡"
+                        self.playerScore = 16
+                    elif point[i] == 6 and point[j] == 6:
+                        plusStatus = "육땡"
+                        self.playerScore = 15
+                    elif point[i] == 5 and point[j] == 5:
+                        plusStatus = "오땡"
+                        self.playerScore = 14
+                    elif point[i] == 4 and point[j] == 4:
+                        plusStatus = "사땡"
+                        self.playerScore = 13
+                    elif point[i] == 3 and point[j] == 3:
+                        plusStatus = "삼땡"
+                        self.playerScore = 12
+                    elif point[i] == 2 and point[j] == 2:
+                        plusStatus = "이땡"
+                        self.playerScore = 11
+                    elif point[i] == 1 and point[j] == 1:
+                        plusStatus = "삥땡"
+                        self.playerScore = 10
 
+                    elif point[i]+point[j] == 8 or point[i]+point[j]==18:
+                        plusStatus = "여덟끗"
+                        self.playerScore = 9
+                    elif point[i] + point[j] == 7 or point[i]+point[j]==17:
+                        plusStatus = "일곱끗"
+                        self.playerScore = 8
+                    elif point[i]+point[j] == 6 or point[i]+point[j]==16:
+                        plusStatus = "여섯끗"
+                        self.playerScore = 7
+                    elif point[i]+point[j] == 5 or point[i]+point[j]==15:
+                        plusStatus = "다섯끗"
+                        self.playerScore = 6
+                    elif point[i]+point[j] == 4 or point[i]+point[j]==14:
+                        plusStatus = "네끗"
+                        self.playerScore = 5
+                    elif point[i]+point[j] == 3 or point[i]+point[j]==13:
+                        plusStatus = "세끗"
+                        self.playerScore = 4
+                    elif point[i]+point[j] == 2 or point[i]+point[j]==12:
+                        plusStatus = "두끗"
+                        self.playerScore = 3
+                    elif point[i]+point[j] == 1 or point[i]+point[j]==11:
+                        plusStatus = "한끗"
+                        self.playerScore = 2
+                    elif (point[i]==2 and point[j] == 8) or (point[i]==8 and point[j]==2):
+                        plusStatus = "망통"
+                        self.playerScore = 1
+                    elif (point[i]==3 and point[j] == 7) or (point[i]==7 and point[j]==3):
+                        plusStatus = "망통"
+                        self.playerScore = 1
         if self.tempNumList[8]==2 and self.tempNumList[1]==1:
             status.configure(text="구구리(9,9,2)"+plusStatus)
         elif self.tempNumList[7]==2 and self.tempNumList[3]==1:
@@ -367,12 +401,27 @@ class Dorizitgo:
             status.configure(text="콩콩팔(1,1,8)"+plusStatus)
         else:
             status.configure(text="노메이드")
+            self.playerScore = 0
 
 
+        return self.playerScore
 
-
-        iPoint.clear()
+        point.clear()
         self.tempNumList.clear()
+
+    def whoisWinner(self,p1,p2,p3,m):
+        if p1>m:
+            self.Lplayer1wlStatus.configure(text = "승")
+        else:
+            self.Lplayer1wlStatus.configure(text="패")
+        if p2>m:
+            self.Lplayer2wlStatus.configure(text="승")
+        else:
+            self.Lplayer2wlStatus.configure(text="패")
+        if p3>m:
+            self.Lplayer3wlStatus.configure(text="승")
+        else:
+            self.Lplayer3wlStatus.configure(text="패")
 
     def checkWinner(self):
         self.p1_5["state"] = "disabled"
@@ -402,18 +451,73 @@ class Dorizitgo:
             self.MPointLabel.place(x=180 + i * 32, y=110)
 
 
-        self.scoreCheck(self.Lplayer1Status,self.LcardsP1Point)
 
-        self.scoreCheck(self.Lplayer2Status,self.LcardsP2Point)
-
-        self.scoreCheck(self.Lplayer3Status, self.LcardsP3Point)
-
-        self.scoreCheck(self.LmainStatus, self.LcardsMPoint)
-
+        self.whoisWinner(self.scoreCheck(self.Lplayer1Status,self.LcardsP1Point),self.scoreCheck(self.Lplayer2Status,self.LcardsP2Point)
+                         ,self.scoreCheck(self.Lplayer3Status,self.LcardsP3Point),self.scoreCheck(self.LmainStatus, self.LcardsMPoint))
 
     def pressedAgain(self):
-       pass
+        empty = PhotoImage(file="GodoriCards/green.gif")
+        #       self.LcardsPlayer[1].configure = Label(self.window,image=empty)
+        for i in range(len(self.LcardsPlayer1)):
+            self.LcardsPlayer1[i].config(image=empty)  # 이미지 레퍼런스 변경
+            self.LcardsPlayer1[i].image = empty
+            self.LcardsPlayer1[i].place(x=50 + i * 32, y=850)
 
+        for i in range(len(self.LcardsPlayer2)):
+            self.LcardsPlayer2[i].config(image=empty)  # 이미지 레퍼런스 변경
+            self.LcardsPlayer2[i].image = empty
+            self.LcardsPlayer2[i].place(x=260 + i * 32, y=850)
+
+        for i in range(len(self.LcardsPlayer3)):
+            self.LcardsPlayer3[i].config(image=empty)  # 이미지 레퍼런스 변경
+            self.LcardsPlayer3[i].image = empty
+            self.LcardsPlayer3[i].place(x=470 + i * 32, y=850)
+
+        for i in range(len(self.LcardsMain)):
+            self.LcardsMain[i].config(image=empty)
+            self.LcardsMain[i].image = empty
+            self.LcardsMain[i].place(x=170 + i * 32, y=840)
+
+        self.Lplayer1Status.configure(text="")
+        self.Lplayer2Status.configure(text="")
+        self.Lplayer3Status.configure(text="")
+        self.LmainStatus.configure(text="")
+        self.Lplayer1wlStatus.configure(text="")
+        self.Lplayer2wlStatus.configure(text="")
+        self.Lplayer3wlStatus.configure(text="")
+        self.P1PointLabel.configure(text="")
+        self.P2PointLabel.configure(text="")
+        self.P3PointLabel.configure(text="")
+
+        self.MPointLabel.configure(text="")
+        self.LcardsP1Point.clear()
+        self.LcardsP2Point.clear()
+        self.LcardsP3Point.clear()
+        self.LcardsMPoint.clear()
+        self.player1Money = 0
+        self.player2Money = 0
+        self.player3Money = 0
+        self.Lplayer1Money.configure(text=str(self.player3Money) + "만")
+        self.Lplayer2Money.configure(text=str(self.player3Money) + "만")
+        self.Lplayer3Money.configure(text=str(self.player3Money) + "만")
+        self.dealnum = 0
+
+        self.p1_5["state"] = 'active'
+        self.p1_5["bg"] = 'white'
+        self.p1_1["state"] = 'active'
+        self.p1_1["bg"] = 'white'
+        self.p2_5["state"] = 'active'
+        self.p2_5["bg"] = 'white'
+        self.p2_1["state"] = 'active'
+        self.p2_1["bg"] = 'white'
+        self.p3_5["state"] = 'active'
+        self.p3_5["bg"] = 'white'
+        self.p3_1["state"] = 'active'
+        self.p3_1["bg"] = 'white'
+        self.Deal["state"] = 'active'
+        self.Deal["bg"] = 'white'
+        self.Again['state'] = "disabled"
+        self.Again['bg'] = 'gray'
 
 
 Dorizitgo()
