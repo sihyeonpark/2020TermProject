@@ -49,13 +49,13 @@ def InitTopText():
 def InputLabel():
     nameL = Label(window,text="약국명", font=fontstyle2)
     nameL.configure(bg='PaleGreen3')
-    nameL.place(x=430, y=88)
+    nameL.place(x=370, y=88)
     L1 = Label(window,text="시/도", font=fontstyle2)
     L1.configure(bg='PaleGreen3')
     L1.place(x=20, y=88)
     L2 = Label(window,text="시/구/군", font=fontstyle2)
     L2.configure(bg='PaleGreen3')
-    L2.place(x=210, y=88)
+    L2.place(x=180, y=88)
 
 
 
@@ -71,21 +71,21 @@ def InitQ1():   #시/구/군
     TempFont = font.Font(window, size=11, family="맑은 고딕")
     InitQ1 = Entry(window, font=TempFont, width=11, relief='ridge')
     InitQ1.pack()
-    InitQ1.place(x=280, y=90)
+    InitQ1.place(x=250, y=90)
 
 def InitPharmacyName():
     global InitPharmacyName
     TempFont = font.Font(window, size=11,  family="맑은 고딕")
     InitPharmacyName = Entry(window, font=TempFont, width=11,  relief='ridge')
     InitPharmacyName.pack()
-    InitPharmacyName.place(x=490, y=90)
+    InitPharmacyName.place(x=430, y=90)
 
 
 def InitSearchButton():
     TempFont = font.Font(window, size=10,weight='bold', family="맑은 고딕")
     SearchButton = Button(window, bg='white', font=TempFont, width=7, text="검색", command=SearchButtonAction)
 
-    SearchButton.place(x=630, y=88)
+    SearchButton.place(x=550, y=88)
 #    SearchButton.pack()
 
 def SearchButtonAction():
@@ -241,10 +241,10 @@ def loadDetail(event):   #상세정보창
 
 
 def starButton():   #즐겨찾기 버튼
-    TempFont = font.Font(window, size=11, family='Consolas')
+    TempFont = font.Font(window, size=10,weight='bold', family="맑은 고딕")
     SearchButton = Button(window, font=TempFont, bg='white',width=7, text="즐겨찾기", command=inStar)
 
-    SearchButton.place(x=430, y=340)
+    SearchButton.place(x=430, y=320)
 #    SearchButton.pack()
 
 def InitStar(): #리스트박스랑 스크롤바 frame2에
@@ -297,9 +297,9 @@ def loadDetail2(event):   #상세정보창
     RenderText.insert(INSERT, "\n\n")
 
 def mapButton():
-    TempFont = font.Font(window, size=11, family='Consolas')
+    TempFont = font.Font(window, size=10,weight='bold', family="맑은 고딕")
     MapButton = Button(window, font=TempFont, width=7, bg='white',text="지도보기", command=openMap)
-    MapButton.place(x=520, y=340)
+    MapButton.place(x=520, y=320)
 
 def openMap():
     map_osm = folium.Map(location=[DataList[indexNum][3],DataList[indexNum][4]], zoom_start=13)
