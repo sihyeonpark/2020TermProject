@@ -25,7 +25,7 @@ import smtplib
 window.configure(bg='PaleGreen3')
         #폰트가 함수보다 위에 있어야 적용 (family:폰트이름)
 fontstyle = font.Font(window, size=24, weight='bold', family='맑은 고딕')
-fontstyle2 = font.Font(window, size=12, family='맑은 고딕')
+fontstyle2 = font.Font(window, size=11, family='맑은 고딕')
 
 
 noteBook = ttk.Notebook(window, width = 375, height=400)
@@ -49,43 +49,43 @@ def InitTopText():
 def InputLabel():
     nameL = Label(window,text="약국명", font=fontstyle2)
     nameL.configure(bg='PaleGreen3')
-    nameL.place(x=430, y=82)
+    nameL.place(x=430, y=88)
     L1 = Label(window,text="시/도", font=fontstyle2)
     L1.configure(bg='PaleGreen3')
-    L1.place(x=20, y=82)
+    L1.place(x=20, y=88)
     L2 = Label(window,text="시/구/군", font=fontstyle2)
     L2.configure(bg='PaleGreen3')
-    L2.place(x=210, y=82)
+    L2.place(x=210, y=88)
 
 
 
 def InitQ0():   #시/도
     global InitQ0
-    TempFont = font.Font(window, size=14, weight='bold', family='Consolas')
+    TempFont = font.Font(window, size=11, family="맑은 고딕")
     InitQ0 = Entry(window, font=TempFont, width=11, relief='ridge')
     InitQ0.pack()
-    InitQ0.place(x=70, y=84)
+    InitQ0.place(x=70, y=90)
 
 def InitQ1():   #시/구/군
     global InitQ1
-    TempFont = font.Font(window, size=15, weight='bold', family='Consolas')
+    TempFont = font.Font(window, size=11, family="맑은 고딕")
     InitQ1 = Entry(window, font=TempFont, width=11, relief='ridge')
     InitQ1.pack()
-    InitQ1.place(x=280, y=84)
+    InitQ1.place(x=280, y=90)
 
 def InitPharmacyName():
     global InitPharmacyName
-    TempFont = font.Font(window, size=15,  family='Consolas')
+    TempFont = font.Font(window, size=11,  family="맑은 고딕")
     InitPharmacyName = Entry(window, font=TempFont, width=11,  relief='ridge')
     InitPharmacyName.pack()
-    InitPharmacyName.place(x=490, y=84)
+    InitPharmacyName.place(x=490, y=90)
 
 
 def InitSearchButton():
-    TempFont = font.Font(window, size=11, family='Consolas')
+    TempFont = font.Font(window, size=10,weight='bold', family="맑은 고딕")
     SearchButton = Button(window, bg='white', font=TempFont, width=7, text="검색", command=SearchButtonAction)
 
-    SearchButton.place(x=650, y=80)
+    SearchButton.place(x=630, y=88)
 #    SearchButton.pack()
 
 def SearchButtonAction():
@@ -208,7 +208,7 @@ def InitRenderText():
     global RenderText
 
 
-    RenderText = Text(window, width=50, height=13, bg='white', relief='ridge', )
+    RenderText = Text(window, width=50, height=11, bg='white', relief='ridge', )
 
     RenderText.place(x=430, y=145)
 
@@ -222,14 +222,14 @@ def loadDetail(event):   #상세정보창
 
 
 
-    RenderText.insert(INSERT, "\n\n\n")
+    RenderText.insert(INSERT, "\n\n")
     RenderText.insert(INSERT, " 약국명:\t")
     RenderText.insert(INSERT, DataList[indexNum][0])
-    RenderText.insert(INSERT, "\n\n")
+    RenderText.insert(INSERT, "\n\n\n")
 
     RenderText.insert(INSERT, " 주소:\t")
     RenderText.insert(INSERT, DataList[indexNum][1])
-    RenderText.insert(INSERT, "\n\n")
+    RenderText.insert(INSERT, "\n\n\n")
     '''
     RenderText.insert(INSERT, "\t☞ ")
     RenderText.insert(INSERT, DataList[indexNum][2])
@@ -310,14 +310,25 @@ def openMap():
 
 
 def emailButton():
-    TempFont = font.Font(window, size=11, weight='bold', family='Consolas')
+    TempFont = font.Font(window, size=10,weight='bold', family="맑은 고딕")
     SearchButton = Button(window, font=TempFont, width=7, bg='white', text="메일전송", command=sendInfo)
 
-    SearchButton.place(x=610, y=340)
+    SearchButton.place(x=620, y=383)
+
+def emailLabel():   #시/구/군
+    global emailL
+    TempFont = font.Font(window, size=13, family="맑은 고딕")
+    infoFont = font.Font(window, size=9,  family="맑은 고딕")
+    emailL = Entry(window, font=TempFont, width=20, relief='ridge')
+    emailL.pack()
+    emailL.place(x=430, y=384)
+    infoL = Label(window, text="* 메일주소를 입력하세요", font = infoFont,  fg="white")
+    infoL.configure(bg='PaleGreen3')
+    infoL.place(x=430, y=412)
 
 def sendInfo():
     sendEmail = "qkrtlgus123@gmail.com"
-    recvEmail = "sh2joo@naver.com"
+    recvEmail = emailL.get()
     password = "psh9806142"
 
 
@@ -353,7 +364,7 @@ emailButton()
 mapButton()
 #loadMap()
 #SearchPharmacy()
-
+emailLabel()
 
 
 window.mainloop()
