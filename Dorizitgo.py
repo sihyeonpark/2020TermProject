@@ -302,7 +302,7 @@ class Dorizitgo:
         self.LmPoint.append(Label(self.window, width=3, height=1, font=self.fontstyle2, bg="green",
                                   fg="white"))
 
-        self.LmPoint[n].config(text=self.LcardsMPoint[n])
+
 
     def scoreCheck(self,status,point):
         plusStatus = "하이"
@@ -472,7 +472,7 @@ class Dorizitgo:
             p = PhotoImage(file="GodoriCards/" + self.main.cards[i].filename())
             self.LcardsMain[i].configure(image=p)  # 이미지 레퍼런스 변경
             self.LcardsMain[i].image = p  # 파이썬은 라벨 이미지 레퍼런스를 갖고 있어야 이미지가 보임
-
+            self.LmPoint[i].config(text=self.LcardsMPoint[i])
             self.LmPoint[i].place(x=170 + i * 32, y=100)
 
 
@@ -522,6 +522,7 @@ class Dorizitgo:
         self.LcardsP2Point.clear()
         self.LcardsP3Point.clear()
         self.LcardsMPoint.clear()
+
         self.player1Money = 0
         self.player2Money = 0
         self.player3Money = 0
