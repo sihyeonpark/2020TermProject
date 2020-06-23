@@ -235,9 +235,10 @@ class Dorizitgo:
 
         self.LcardsP1Point.append(newCard.getValue())
 
+        self.p1Point =  list(map(int, self.LcardsP1Point))
         self.Lp1Point.append(Label(self.window, width=3, height=1, font=self.fontstyle2, bg="green",
                                   fg="white"))
-        self.Lp1Point[n].config(text=self.LcardsP1Point[n])
+        self.Lp1Point[n].config(text=self.p1Point[n]//1)
         self.Lp1Point[n].place(x=60 + n * 32, y=320)
 
     def p2Card(self, n):
@@ -254,9 +255,10 @@ class Dorizitgo:
 
         self.LcardsP2Point.append(newCard.getValue())
 
+        self.p2Point =  list(map(int, self.LcardsP2Point))
         self.Lp2Point.append(Label(self.window, width=3, height=1, font=self.fontstyle2, bg="green",
                                   fg="white"))
-        self.Lp2Point[n].config(text=self.LcardsP2Point[n])
+        self.Lp2Point[n].config(text=self.p2Point[n]//1)
         self.Lp2Point[n].place(x=270 + n * 32, y=320)
 
 
@@ -273,10 +275,10 @@ class Dorizitgo:
         self.LcardsPlayer3[self.player3.inHand() - 1].place(x=470 + n * 32, y=350)
 
         self.LcardsP3Point.append(newCard.getValue())
-
+        self.p3Point =  list(map(int, self.LcardsP3Point))
         self.Lp3Point.append(Label(self.window, width=3, height=1, font=self.fontstyle2, bg="green",
                                   fg="white"))
-        self.Lp3Point[n].config(text=self.LcardsP3Point[n])
+        self.Lp3Point[n].config(text=self.p3Point[n]//1)
         self.Lp3Point[n].place(x=480 + n * 32, y=320)
 
     #    self.P3PointLabel.configure(text=self.LcardsP3Point[n])
@@ -299,89 +301,90 @@ class Dorizitgo:
 
         self.LcardsMPoint.append(newCard.getValue())
 
+        self.mPoint =  list(map(int, self.LcardsMPoint))
         self.LmPoint.append(Label(self.window, width=3, height=1, font=self.fontstyle2, bg="green",
                                   fg="white"))
 
 
 
-    def scoreCheck(self,status,point):
-        plusStatus = "하이"
 
+    def scoreCheck(self,status,point): #point = 소수점str
 
         self.tempNumList = [0 for _ in range(12)]
-
-        for i in range(1,len(point)+1):
-            num = point[i-1]
-            self.tempNumList[num-1] = point.count(num)
+        intList = list(map(int, point))
+        floatList = list(map(float, point))
+        for i in range(1,len(intList)+1):
+            num = intList[i-1]
+            self.tempNumList[num-1] = intList.count(num)
 
         for i in range(5):
             for j in range(5):
                 if i!=j:
-                    if point[i] == 8 and point[j] == 3:
+                    if floatList[i] == 8.1 and floatList[j] == 3.1:
                         plusStatus = "38광땡"
                         self.playerScore = 21
-                    elif (point[i] == 1 and point[j] == 3) or (point[i] == 1 and point[i] == 8):
+                    elif (floatList[i] == 1.1 and floatList[j] == 3.1) or (floatList[i] == 1.1 and point[i] == 8.1):
                         plusStatus = "광땡"
                         self.playerScore = 20
-                    elif point[i] == 10 and point[j] == 10:
+                    elif (intList[i] == 10) and (intList[j] == 10):
                         plusStatus = "장땡"
                         self.playerScore = 19
-                    elif point[i] == 9 and point[j] == 9:
+                    elif intList[i] == 9 and intList[j] == 9:
                         plusStatus = "구땡"
                         self.playerScore = 18
-                    elif point[i] == 8 and point[j] == 8:
+                    elif intList[i] == 8 and intList[j] == 8:
                         plusStatus = "팔땡"
                         self.playerScore = 17
-                    elif point[i] == 7 and point[j] == 7:
+                    elif intList[i] == 7 and intList[j] == 7:
                         plusStatus = "칠땡"
                         self.playerScore = 16
-                    elif point[i] == 6 and point[j] == 6:
+                    elif intList[i] == 6 and intList[j] == 6:
                         plusStatus = "육땡"
                         self.playerScore = 15
-                    elif point[i] == 5 and point[j] == 5:
+                    elif intList[i] == 5 and intList[j] == 5:
                         plusStatus = "오땡"
                         self.playerScore = 14
-                    elif point[i] == 4 and point[j] == 4:
+                    elif intList[i] == 4 and intList[j] == 4:
                         plusStatus = "사땡"
                         self.playerScore = 13
-                    elif point[i] == 3 and point[j] == 3:
+                    elif (intList[i] == 3) and (intList[j] == 3):
                         plusStatus = "삼땡"
                         self.playerScore = 12
-                    elif point[i] == 2 and point[j] == 2:
+                    elif intList[i] == 2 and intList[j] == 2:
                         plusStatus = "이땡"
                         self.playerScore = 11
-                    elif point[i] == 1 and point[j] == 1:
+                    elif intList[i] == 1 and intList[j] == 1:
                         plusStatus = "삥땡"
                         self.playerScore = 10
 
-                    elif point[i]+point[j] == 8 or point[i]+point[j]==18:
+                    elif intList[i]+intList[j] == 8 or intList[i]+intList[j]==18:
                         plusStatus = "여덟끗"
                         self.playerScore = 9
-                    elif point[i] + point[j] == 7 or point[i]+point[j]==17:
+                    elif intList[i] + intList[j] == 7 or intList[i]+intList[j]==17:
                         plusStatus = "일곱끗"
                         self.playerScore = 8
-                    elif point[i]+point[j] == 6 or point[i]+point[j]==16:
+                    elif intList[i]+intList[j] == 6 or intList[i]+intList[j]==16:
                         plusStatus = "여섯끗"
                         self.playerScore = 7
-                    elif point[i]+point[j] == 5 or point[i]+point[j]==15:
+                    elif intList[i]+intList[j] == 5 or intList[i]+intList[j]==15:
                         plusStatus = "다섯끗"
                         self.playerScore = 6
-                    elif point[i]+point[j] == 4 or point[i]+point[j]==14:
+                    elif intList[i]+intList[j] == 4 or intList[i]+intList[j]==14:
                         plusStatus = "네끗"
                         self.playerScore = 5
-                    elif point[i]+point[j] == 3 or point[i]+point[j]==13:
+                    elif intList[i]+intList[j] == 3 or intList[i]+intList[j]==13:
                         plusStatus = "세끗"
                         self.playerScore = 4
-                    elif point[i]+point[j] == 2 or point[i]+point[j]==12:
+                    elif intList[i]+intList[j] == 2 or intList[i]+intList[j]==12:
                         plusStatus = "두끗"
                         self.playerScore = 3
-                    elif point[i]+point[j] == 1 or point[i]+point[j]==11:
+                    elif intList[i]+intList[j] == 1 or intList[i]+intList[j]==11:
                         plusStatus = "한끗"
                         self.playerScore = 2
-                    elif (point[i]==2 and point[j] == 8) or (point[i]==8 and point[j]==2):
+                    elif (intList[i]==2 and intList[j] == 8) or (intList[i]==8 and intList[j]==2):
                         plusStatus = "망통"
                         self.playerScore = 1
-                    elif (point[i]==3 and point[j] == 7) or (point[i]==7 and point[j]==3):
+                    elif (intList[i]==3 and intList[j] == 7) or (intList[i]==7 and intList[j]==3):
                         plusStatus = "망통"
                         self.playerScore = 1
         if self.tempNumList[8]==2 and self.tempNumList[1]==1:
@@ -472,7 +475,7 @@ class Dorizitgo:
             p = PhotoImage(file="GodoriCards/" + self.main.cards[i].filename())
             self.LcardsMain[i].configure(image=p)  # 이미지 레퍼런스 변경
             self.LcardsMain[i].image = p  # 파이썬은 라벨 이미지 레퍼런스를 갖고 있어야 이미지가 보임
-            self.LmPoint[i].config(text=self.LcardsMPoint[i])
+            self.LmPoint[i].config(text=self.mPoint[i] // 1)
             self.LmPoint[i].place(x=170 + i * 32, y=100)
 
 
