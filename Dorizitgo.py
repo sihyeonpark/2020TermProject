@@ -42,6 +42,10 @@ class Dorizitgo:
         self.LcardsPlayer1 = [] #라벨카드플레이어
         self.LcardsPlayer2 = []  # 라벨카드플레이어
         self.LcardsPlayer3 = []  # 라벨카드플레이어
+        self.Lp1Point = []
+        self.Lp2Point = []
+        self.Lp3Point=[]
+        self.LmPoint=[]
         self.LcardsP1Point =[]
         self.LcardsP2Point = []
         self.LcardsP3Point = []
@@ -215,19 +219,26 @@ class Dorizitgo:
         self.Deal['state'] = 'disabled'
         self.Deal['bg'] = 'gray'
 
-    def p1Card(self,n):
+
+
+    def p1Card(self, n):
         newCard = Card(self.cardDeck[self.deckN])
         self.deckN += 1
         self.player1.addCard(newCard)
 
         p = PhotoImage(file="GodoriCards/" + newCard.filename())
         self.LcardsPlayer1.append(Label(self.window, bd=0, image=p))
+
         self.LcardsPlayer1[self.player1.inHand() - 1].config(image=p)  # 가지고있는 카드갯수 -1 인덱스는 0이 시작
         self.LcardsPlayer1[self.player1.inHand() - 1].image = p
         self.LcardsPlayer1[self.player1.inHand() - 1].place(x=50 + n * 32, y=350)
+
         self.LcardsP1Point.append(newCard.getValue())
-        self.P1PointLabel = Label(text = self.LcardsP1Point[n],width=3, height=1, font=self.fontstyle2, bg="green", fg="white")
-        self.P1PointLabel.place(x=60 + n * 32, y=320)
+
+        self.Lp1Point.append(Label(self.window, width=3, height=1, font=self.fontstyle2, bg="green",
+                                  fg="white"))
+        self.Lp1Point[n].config(text=self.LcardsP1Point[n])
+        self.Lp1Point[n].place(x=60 + n * 32, y=320)
 
     def p2Card(self, n):
         newCard = Card(self.cardDeck[self.deckN])
@@ -240,10 +251,14 @@ class Dorizitgo:
         self.LcardsPlayer2[self.player2.inHand() - 1].config(image=p)  # 가지고있는 카드갯수 -1 인덱스는 0이 시작
         self.LcardsPlayer2[self.player2.inHand() - 1].image = p
         self.LcardsPlayer2[self.player2.inHand() - 1].place(x=260 + n * 32, y=350)
+
         self.LcardsP2Point.append(newCard.getValue())
-        self.P2PointLabel = Label(text=self.LcardsP2Point[n], width=3, height=1, font=self.fontstyle2, bg="green",
-                                  fg="white")
-        self.P2PointLabel.place(x=270 + n * 32, y=320)
+
+        self.Lp2Point.append(Label(self.window, width=3, height=1, font=self.fontstyle2, bg="green",
+                                  fg="white"))
+        self.Lp2Point[n].config(text=self.LcardsP2Point[n])
+        self.Lp2Point[n].place(x=270 + n * 32, y=320)
+
 
     def p3Card(self, n):
         newCard = Card(self.cardDeck[self.deckN])
@@ -258,12 +273,19 @@ class Dorizitgo:
         self.LcardsPlayer3[self.player3.inHand() - 1].place(x=470 + n * 32, y=350)
 
         self.LcardsP3Point.append(newCard.getValue())
-        self.P3PointLabel = Label(text=self.LcardsP3Point[n], width=3, height=1, font=self.fontstyle2, bg="green",
-                                  fg="white")
-        self.P3PointLabel.place(x=480 + n * 32, y=320)
+
+        self.Lp3Point.append(Label(self.window, width=3, height=1, font=self.fontstyle2, bg="green",
+                                  fg="white"))
+        self.Lp3Point[n].config(text=self.LcardsP3Point[n])
+        self.Lp3Point[n].place(x=480 + n * 32, y=320)
+
+    #    self.P3PointLabel.configure(text=self.LcardsP3Point[n])
+    #    self.P3PointLabel.place(x=480 + n * 32, y=320)
 
 
-    def mCard(self,n):
+
+
+    def mCard(self, n):
         newCard = Card(self.cardDeck[self.deckN])
         self.deckN += 1
         self.main.addCard(newCard)
@@ -276,6 +298,11 @@ class Dorizitgo:
         self.LcardsMain[self.main.inHand() - 1].place(x=170 + n * 32, y=140)
 
         self.LcardsMPoint.append(newCard.getValue())
+
+        self.LmPoint.append(Label(self.window, width=3, height=1, font=self.fontstyle2, bg="green",
+                                  fg="white"))
+
+        self.LmPoint[n].config(text=self.LcardsMPoint[n])
 
     def scoreCheck(self,status,point):
         plusStatus = "하이"
@@ -441,14 +468,12 @@ class Dorizitgo:
         self.Again['state'] = 'active'
         self.Again['bg'] = 'white'
 
-        for i in range(len(self.LcardsMain)):
+        for i in range(5):
             p = PhotoImage(file="GodoriCards/" + self.main.cards[i].filename())
             self.LcardsMain[i].configure(image=p)  # 이미지 레퍼런스 변경
             self.LcardsMain[i].image = p  # 파이썬은 라벨 이미지 레퍼런스를 갖고 있어야 이미지가 보임
-            self.mPoint = [int(x) for x in self.LcardsMPoint]
-            self.MPointLabel = Label(text=self.mPoint[i], width=3, height=1, font=self.fontstyle2, bg="green",
-                                      fg="white")
-            self.MPointLabel.place(x=180 + i * 32, y=110)
+
+            self.LmPoint[i].place(x=170 + i * 32, y=100)
 
 
 
@@ -485,11 +510,14 @@ class Dorizitgo:
         self.Lplayer1wlStatus.configure(text="")
         self.Lplayer2wlStatus.configure(text="")
         self.Lplayer3wlStatus.configure(text="")
-        self.P1PointLabel.configure(text="")
-        self.P2PointLabel.configure(text="")
-        self.P3PointLabel.configure(text="")
 
-        self.MPointLabel.configure(text="")
+
+        for j in range(5):
+            self.Lp1Point[j].configure(text="")
+            self.Lp2Point[j].configure(text="")
+            self.Lp3Point[j].configure(text="")
+            self.LmPoint[j].configure(text="")
+
         self.LcardsP1Point.clear()
         self.LcardsP2Point.clear()
         self.LcardsP3Point.clear()
