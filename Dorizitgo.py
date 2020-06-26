@@ -72,16 +72,16 @@ class Dorizitgo:
         self.Lplayer3Money = Label(text="0만", width=6, height=1, font=self.fontstyle, bg="green", fg="cyan")
         self.Lplayer3Money.place(x=505, y=480)
 
-        self.Lplayer1Status = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="yellow")
+        self.Lplayer1Status = Label(text="", width=19, height=1, font=self.fontstyle2, bg="green", fg="yellow")
         self.Lplayer1Status.place(x=20, y=280)
 
-        self.Lplayer2Status = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="yellow")
+        self.Lplayer2Status = Label(text="", width=19, height=1, font=self.fontstyle2, bg="green", fg="yellow")
         self.Lplayer2Status.place(x=250, y=280)
 
-        self.Lplayer3Status = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="yellow")
+        self.Lplayer3Status = Label(text="", width=19, height=1, font=self.fontstyle2, bg="green", fg="yellow")
         self.Lplayer3Status.place(x=470, y=280)
 
-        self.LmainStatus = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="yellow")
+        self.LmainStatus = Label(text="", width=19, height=1, font=self.fontstyle2, bg="green", fg="yellow")
         self.LmainStatus.place(x=170, y=70)
 
         self.Lplayer1wlStatus = Label(text="", width=17, height=1, font=self.fontstyle2, bg="green", fg="red")
@@ -309,9 +309,21 @@ class Dorizitgo:
 
 
     def scoreCheck(self,status,point): #point = 소수점str
-
+        plusStatus = "하이"
+        plusList = []
         self.tempNumList = [0 for _ in range(12)]
         intList = list(map(int, point))
+        for i in range(5):
+            for j in range(5):
+                if i!=j and i<=j:
+                    num = intList[i]+intList[j]
+                    if num >= 10:
+                        num = num%10
+                    plusList.append(num)
+
+        plusList.sort()
+        plusList.reverse()
+
         floatList = list(map(float, point))
         for i in range(1,len(intList)+1):
             num = intList[i-1]
@@ -319,74 +331,104 @@ class Dorizitgo:
 
         for i in range(5):
             for j in range(5):
+                if (intList[i] == 2 and intList[j] == 8) or (intList[i] == 8 and intList[j] == 2):
+                    plusStatus = "망통"
+                    self.playerScore = 1
+
+                elif (intList[i] == 3 and intList[j] == 7) or (intList[i] == 7 and intList[j] == 3):
+                    plusStatus = "망통"
+                    self.playerScore = 1
+        for i in range(5):
+            if plusList[i] == 8:
+                plusStatus = "여덟끗"
+                self.playerScore = 9
+                break
+            elif plusList[i] ==7:
+                plusStatus = "일곱끗"
+                self.playerScore = 8
+                break
+
+            elif plusList[i] ==6:
+                plusStatus = "여섯끗"
+                self.playerScore = 7
+                break
+            elif plusList[i] == 5:
+                plusStatus = "다섯끗"
+                self.playerScore = 6
+                break
+            elif plusList[i]  == 4:
+                plusStatus = "네끗"
+                self.playerScore = 5
+                break
+            elif plusList[i] == 3:
+                plusStatus = "세끗"
+                self.playerScore = 4
+                break
+            elif plusList[i]== 2:
+                plusStatus = "두끗"
+                self.playerScore = 3
+                break
+            elif plusList[i]==1:
+                plusStatus = "한끗"
+                self.playerScore = 2
+                break
+
+
+
+        for i in range(5):
+            for j in range(5):
                 if i!=j:
                     if floatList[i] == 8.1 and floatList[j] == 3.1:
                         plusStatus = "38광땡"
                         self.playerScore = 21
+                        break
                     elif (floatList[i] == 1.1 and floatList[j] == 3.1) or (floatList[i] == 1.1 and point[i] == 8.1):
                         plusStatus = "광땡"
                         self.playerScore = 20
+                        break
                     elif (intList[i] == 10) and (intList[j] == 10):
                         plusStatus = "장땡"
                         self.playerScore = 19
+                        break
                     elif intList[i] == 9 and intList[j] == 9:
                         plusStatus = "구땡"
                         self.playerScore = 18
+                        break
                     elif intList[i] == 8 and intList[j] == 8:
                         plusStatus = "팔땡"
                         self.playerScore = 17
+                        break
                     elif intList[i] == 7 and intList[j] == 7:
                         plusStatus = "칠땡"
                         self.playerScore = 16
+                        break
                     elif intList[i] == 6 and intList[j] == 6:
                         plusStatus = "육땡"
                         self.playerScore = 15
+                        break
                     elif intList[i] == 5 and intList[j] == 5:
                         plusStatus = "오땡"
                         self.playerScore = 14
+                        break
                     elif intList[i] == 4 and intList[j] == 4:
                         plusStatus = "사땡"
                         self.playerScore = 13
+                        break
                     elif (intList[i] == 3) and (intList[j] == 3):
                         plusStatus = "삼땡"
                         self.playerScore = 12
+                        break
                     elif intList[i] == 2 and intList[j] == 2:
                         plusStatus = "이땡"
                         self.playerScore = 11
+                        break
                     elif intList[i] == 1 and intList[j] == 1:
                         plusStatus = "삥땡"
                         self.playerScore = 10
+                        break
 
-                    elif intList[i]+intList[j] == 8 or intList[i]+intList[j]==18:
-                        plusStatus = "여덟끗"
-                        self.playerScore = 9
-                    elif intList[i] + intList[j] == 7 or intList[i]+intList[j]==17:
-                        plusStatus = "일곱끗"
-                        self.playerScore = 8
-                    elif intList[i]+intList[j] == 6 or intList[i]+intList[j]==16:
-                        plusStatus = "여섯끗"
-                        self.playerScore = 7
-                    elif intList[i]+intList[j] == 5 or intList[i]+intList[j]==15:
-                        plusStatus = "다섯끗"
-                        self.playerScore = 6
-                    elif intList[i]+intList[j] == 4 or intList[i]+intList[j]==14:
-                        plusStatus = "네끗"
-                        self.playerScore = 5
-                    elif intList[i]+intList[j] == 3 or intList[i]+intList[j]==13:
-                        plusStatus = "세끗"
-                        self.playerScore = 4
-                    elif intList[i]+intList[j] == 2 or intList[i]+intList[j]==12:
-                        plusStatus = "두끗"
-                        self.playerScore = 3
-                    elif intList[i]+intList[j] == 1 or intList[i]+intList[j]==11:
-                        plusStatus = "한끗"
-                        self.playerScore = 2
-                    elif (intList[i]==2 and intList[j] == 8) or (intList[i]==8 and intList[j]==2):
-                        plusStatus = "망통"
-                        self.playerScore = 1
-                    elif (intList[i]==3 and intList[j] == 7) or (intList[i]==7 and intList[j]==3):
-                        plusStatus = "망통"
-                        self.playerScore = 1
+
+
         if self.tempNumList[8]==2 and self.tempNumList[1]==1:
             status.configure(text="구구리(9,9,2)"+plusStatus)
         elif self.tempNumList[7]==2 and self.tempNumList[3]==1:
