@@ -15,16 +15,24 @@ status = True
 def handle(msg):
     content, chat, id = telepot.glance(msg)
 
-
+    text = msg['text']
+    args = text.split(',')
 
     if content == 'text':
-        text = msg['text']
-        args = text.split(',')
-        InfoL = SearchPharmacy(args)
-        bot.sendMessage(id, '약국 목록을 출력합니다.')
-        for i in range(len(InfoL)):
-            bot.sendMessage(id,"약국명 : " +InfoL[i][0]+"\n"+"주소 : "+InfoL[i][1]+"\n"+"전화번호 : "+InfoL[i][2])
-      #  if InfoL == None:
+
+        if len(args) == 3:
+            InfoL = SearchPharmacy(args)
+            if len(InfoL) >= 1:
+                bot.sendMessage(id, '약국 목록을 출력합니다.')
+                for i in range(len(InfoL)):
+                    bot.sendMessage(id,"약국명 : " +InfoL[i][0]+"\n"+"주소 : "+InfoL[i][1]+"\n"+"전화번호 : "+InfoL[i][2])
+            elif len(InfoL) == 0:
+                bot.sendMessage(id,"검색 결과가 없습니다.")
+        else:
+            bot.sendMessage(id, "안녕하세요! 약국 검색 프로그램입니다.")
+            bot.sendMessage(id, '시/도 , 시/구/군, 약국명을 입력하세요.')
+
+
 
 
 def SearchPharmacy(args):
@@ -42,7 +50,7 @@ def SearchPharmacy(args):
 
     conn = http.client.HTTPConnection("apis.data.go.kr")
     conn.request("GET",
-                 "/B552657/ErmctInsttInfoInqireService/getParmacyListInfoInqire?serviceKey=8XK%2Bij2DKNI36pf9ut8UMhJv3qdDqq8FbA8cZpBvnRFxFYUGAztnNNXsa2mCM%2B2Pf40yOmEqxvtmeUW7LzAmTQ%3D%3D&Q0="+q0+"&Q1="+q1+"&QN="+pharmacyName+"&numOfRows=10")
+                 "/B552657/ErmctInsttInfoInqireService/getParmacyListInfoInqire?serviceKey=8XK%2Bij2DKNI36pf9ut8UMhJv3qdDqq8FbA8cZpBvnRFxFYUGAztnNNXsa2mCM%2B2Pf40yOmEqxvtmeUW7LzAmTQ%3D%3D&Q0="+q0+"&Q1="+q1+"&QN="+pharmacyName+"&numOfRows=100")
                 #  "/B552657/ErmctInsttInfoInqireService/getParmacyListInfoInqire?serviceKey=8XK%2Bij2DKNI36pf9ut8UMhJv3qdDqq8FbA8cZpBvnRFxFYUGAztnNNXsa2mCM%2B2Pf40yOmEqxvtmeUW7LzAmTQ%3D%3D&Q0="+address1+"&Q1="+address2+"&pageNo=1&numOfRows=1")
     req = conn.getresponse()
     DataList=[]
