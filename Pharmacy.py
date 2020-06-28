@@ -9,7 +9,6 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 
-
 import folium
 import webbrowser
 from folium.plugins import MarkerCluster
@@ -280,14 +279,14 @@ def loadDetail2(event):   #상세정보창
 
 
 
-    RenderText.insert(INSERT, "\n\n\n")
+    RenderText.insert(INSERT, "\n\n")
     RenderText.insert(INSERT, " 약국명:\t")
     RenderText.insert(INSERT, StarList[indexNum][0])
-    RenderText.insert(INSERT, "\n\n")
+    RenderText.insert(INSERT, "\n\n\n")
 
     RenderText.insert(INSERT, " 주소:\t")
     RenderText.insert(INSERT, StarList[indexNum][1])
-    RenderText.insert(INSERT, "\n\n")
+    RenderText.insert(INSERT, "\n\n\n")
     '''
     RenderText.insert(INSERT, "\t☞ ")
     RenderText.insert(INSERT, DataList[indexNum][2])
