@@ -15,17 +15,17 @@ status = True
 def handle(msg):
     content, chat, id = telepot.glance(msg)
 
-    text = msg['text']
-    args = text.split(',')
+
 
     if content == 'text':
-        bot.sendMessage(id, SearchPharmacy(args))
-'''   
-    
-            bot.sendMessage(id,'즐겨찾기 목록을 출력합니다.')
-        else:
-            bot.sendMessage(id, "안녕하세요! 약국 검색 프로그램입니다.")
-'''
+        text = msg['text']
+        args = text.split(',')
+        InfoL = SearchPharmacy(args)
+        bot.sendMessage(id, '약국 목록을 출력합니다.')
+        for i in range(len(InfoL)):
+            bot.sendMessage(id,"약국명 : " +InfoL[i][0]+"\n"+"주소 : "+InfoL[i][1]+"\n"+"전화번호 : "+InfoL[i][2])
+      #  if InfoL == None:
+
 
 def SearchPharmacy(args):
     import urllib
@@ -98,7 +98,9 @@ def SearchPharmacy(args):
 
                 # 0번 : 주소 , 2번 : 이름 , 3번 : 간략한 주소 , 4번 : 전화번호
                 DataList.append((subitems[2].firstChild.nodeValue,subitems[0].firstChild.nodeValue,str(subitems[3].firstChild.nodeValue)))
-    return DataList
+
+        return DataList
+
 
 
 bot.message_loop(handle)
